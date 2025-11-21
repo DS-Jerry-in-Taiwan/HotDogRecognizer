@@ -1,3 +1,4 @@
 data/
-hotdogrecognizer/
+hotdogrecognize/
 __pycache__/
+logs/
