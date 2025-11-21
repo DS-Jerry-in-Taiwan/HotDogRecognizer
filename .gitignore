@@ -2,3 +2,4 @@ data/
 hotdogrecognize/
 __pycache__/
 logs/
+hist/
