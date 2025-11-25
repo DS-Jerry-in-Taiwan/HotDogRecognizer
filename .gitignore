@@ -3,3 +3,4 @@ hotdogrecognize/
 __pycache__/
 logs/
 hist/
+checkpoints/
