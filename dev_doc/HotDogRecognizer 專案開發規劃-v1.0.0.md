@@ -78,17 +78,38 @@
    - 儲存訓練日誌與模型 checkpoint，方便後續分析與部署。
 
 **Checklist：**
-- [ ] 模型定義（`models/model.py`）
-- [ ] 訓練流程模組（`trainer/train.py`、`trainer/trainer.py`）
-- [ ] 優化器與損失函數設定
-- [ ] 訓練參數（batch size、learning rate 等）管理
-- [ ] 支援 GPU 訓練
+- [x] 模型定義（`models/model.py`）
+- [x] 訓練流程模組（`trainer/train.py`、`trainer/trainer.py`）
+- [x] 優化器與損失函數設定
+- [x] 訓練參數（batch size、learning rate 等）管理
+- [x] 支援 GPU 訓練
 
 ---
 
 ### 第三階段：訓練結果紀錄與分析
 **目標：**
 - 整合 TensorBoard、matplotlib 等工具，實現訓練過程的即時監控與分析。
+
+
+1. **TensorBoard 日誌紀錄模組開發**
+   - 在 `utils/tensorboard_utils.py` 封裝 TensorBoard 日誌紀錄功能。
+   - 訓練主程式中呼叫，記錄 loss、accuracy 等指標。
+
+2. **訓練指標可視化**
+   - 使用 TensorBoard 或 matplotlib 畫出 loss、accuracy 隨 epoch 變化曲線。
+   - 撰寫簡單的 `utils/visualize.py`，可讀取日誌或訓練結果並繪圖。
+
+3. **訓練結果分析腳本開發**
+   - 在 `utils/visualize.py` 實作訓練過程與結果分析（如 loss/accuracy 曲線、混淆矩陣）。
+   - 可加入錯誤分析（如預測錯誤的圖片展示）。
+
+4. **混淆矩陣與錯誤分析**
+   - 訓練結束後，利用 sklearn 或 matplotlib 計算並繪製混淆矩陣。
+   - 分析模型在不同類別上的表現，找出易混淆的類別。
+
+5. **測試與驗證**
+   - 執行訓練主程式，確認 TensorBoard 日誌能正確紀錄並可視化。
+   - 執行分析腳本，驗證 loss/accuracy 曲線與混淆矩陣能正確產生。
 
 **Checklist：**
 - [ ] TensorBoard 日誌紀錄（`utils/tensorboard_utils.py`）

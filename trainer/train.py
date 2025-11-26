@@ -2,8 +2,8 @@ import os
 import torch
 from config import TrainConfig
 torch.backends.cudnn.benchmark = True  # 加速卷積運算
+from utils.tensorboard_utils import TBLogger
 from torch import nn
-from torch.utils.tensorboard import SummaryWriter
 from trainer.data import get_data_loaders
 from model.models import HotDogsRecognizeModel
 
@@ -29,7 +29,7 @@ model = model.to(device)
 # loss function and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr = learning_rate, weight_decay=0.001)
-writer = SummaryWriter(log_dir='logs') # TensorBoard writer
+writer = TBLogger(log_dir='logs') # TensorBoard writer
 
 # training loop
 for epoch in range(num_epochs):
@@ -49,8 +49,7 @@ for epoch in range(num_epochs):
         
     avg_loss = running_loss / n
     avg_acc = train_acc / n
-    writer.add_scalar("Loss/train", avg_loss, epoch)
-    writer.add_scalar("Accuracy/train", avg_acc, epoch)
+    writer.log_metrics({"Loss/train": avg_loss, "Accuracy/train": avg_acc}, epoch)
     with torch.no_grad():
         model.eval()
         test_loss, test_acc, n_test = 0.0, 0.0, 0
@@ -63,15 +62,14 @@ for epoch in range(num_epochs):
         
     avg_test_loss = test_loss / n_test
     avg_test_acc = test_acc / n_test
-    writer.add_scalar("Loss/test", avg_test_loss, epoch)
-    writer.add_scalar("Accuracy/test", avg_test_acc, epoch)
+    writer.log_metrics({"Loss/test": avg_test_loss, "Accuracy/test": avg_test_acc}, epoch)
     print(f"Epoch [{epoch+1}/{num_epochs}], "
           f"Train Loss: {avg_loss:.4f}, Train Acc: {avg_acc:.4f}, "
           f"Test Loss: {avg_test_loss:.4f}, Test Acc: {avg_test_acc:.4f}")
     
     # save model checkpoint
     checkpoint_path = os.path.join('checkpoints', f'model_epoch_{epoch+1}.pth')
-    os.makedirs('checkpionts', exist_ok=True)
+    os.makedirs('checkpoints', exist_ok=True)
     
     torch.save(model.state_dict(), checkpoint_path)
 writer.close()
