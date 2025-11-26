@@ -1,3 +1,4 @@
+import torch
 class TrainConfig:
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     data_dir = "./data/hotdog"
