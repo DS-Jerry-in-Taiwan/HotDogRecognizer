@@ -16,6 +16,17 @@ class HotDogsRecognizeModel(nn.Module):
     def forward(self, x):
         return self.model(x)
     
+    def save(self, path):
+        torch.save(self.state_dict(), path)
+        
+    @classmethod
+    def load(cls, path, device='cpu', num_classes=2, pretrained=False):
+        model = cls(num_classes=num_classes, pretrained=pretrained)
+        model.load_state_dict(torch.load(path ,map_location=device))
+        model = model.to(device)
+        model.eval()
+        return model
+    
 if __name__ == "__main__":
     model = HotDogsRecognizeModel(num_classes=2)
     print(model)

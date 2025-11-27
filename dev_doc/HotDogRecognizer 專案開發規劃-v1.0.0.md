@@ -112,16 +112,40 @@
    - 執行分析腳本，驗證 loss/accuracy 曲線與混淆矩陣能正確產生。
 
 **Checklist：**
-- [ ] TensorBoard 日誌紀錄（`utils/tensorboard_utils.py`）
-- [ ] 訓練指標（loss、accuracy）可視化
-- [ ] 訓練結果分析腳本（`utils/visualize.py`）
-- [ ] 混淆矩陣、錯誤分析
+- [x] TensorBoard 日誌紀錄（`utils/tensorboard_utils.py`）
+- [x] 訓練指標（loss、accuracy）可視化
+- [x] 訓練結果分析腳本（`utils/visualize.py`）
+- [x] 混淆矩陣、錯誤分析
 
 ---
 
 ### 第四階段：模型儲存、推論與部署
 **目標：**
 - 完成模型儲存、載入、推論與部署流程，支援後續應用。
+
+### 第四階段：模型儲存、推論與部署 — 開發步驟
+
+1. **模型儲存與載入**
+   - 在訓練結束後，將模型權重存到 `checkpoints/` 目錄（`torch.save`）。
+   - 在 `models/model.py` 或新檔案實作模型載入函式（`torch.load` + `model.load_state_dict`）。
+
+2. **推論模組開發**
+   - 建立 `inference/inference.py`，撰寫模型推論流程（載入模型、資料前處理、預測、回傳結果）。
+   - 支援單張圖片或批次推論。
+
+3. **模型匯出（ONNX、TorchScript）**
+   - 在 `inference/export.py` 實作模型匯出功能，支援 ONNX 或 TorchScript 格式，方便部署到不同平台。
+   - 測試匯出後模型能正確推論。
+
+4. **部署腳本開發**
+   - 根據需求，撰寫 API（如 FastAPI）、Web（如 Streamlit）、Batch（批次推論）等部署腳本。
+   - 整合推論模組，支援外部呼叫與結果回傳。
+
+5. **測試與驗證**
+   - 測試模型儲存/載入流程，確保模型能正確還原。
+   - 測試推論模組，確認輸入/輸出正確。
+   - 測試匯出模型能在目標平台正確運作。
+   - 測試 API/Web/Batch 部署腳本，確保可用性與穩定性。
 
 **Checklist：**
 - [ ] 模型儲存與載入（`checkpoints/`、`models/model.py`）
