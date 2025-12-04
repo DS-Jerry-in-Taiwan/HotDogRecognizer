@@ -14,7 +14,7 @@ def unnormalize(img_tensor):
 
 def on_click(event):
     if event.button == 1:  # 左鍵換下一張
-        index[0] = (index[0] + 1) % len(images)
+        index[0] = (index[0] + 1) % len(sample_imgs)
         show_image(index[0])
     elif event.button == 3:  # 右鍵關閉
         plt.close(fig)
