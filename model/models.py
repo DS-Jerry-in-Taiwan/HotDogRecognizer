@@ -6,9 +6,9 @@ class HotDogsRecognizeModel(nn.Module):
     """
     Use a pre-trained model to fine-tune for hotdog recognizer
     """
-    def  __init__(self, num_classes, pretrained=True):
+    def  __init__(self, num_classes, weights=None):
         super().__init__()
-        self.model = models.resnet18(pretrained=pretrained)
+        self.model = models.resnet18(weights=weights)
         # replace the final fully connected layer
         self.model.fc = nn.Linear(self.model.fc.in_features, num_classes)
         nn.init.xavier_uniform_(self.model.fc.weight)
@@ -20,8 +20,8 @@ class HotDogsRecognizeModel(nn.Module):
         torch.save(self.state_dict(), path)
         
     @classmethod
-    def load(cls, path, device='cpu', num_classes=2, pretrained=False):
-        model = cls(num_classes=num_classes, pretrained=pretrained)
+    def load(cls, path, device='cpu', num_classes=2, weights=None):
+        model = cls(num_classes=num_classes, weights=weights)
         model.load_state_dict(torch.load(path ,map_location=device))
         model = model.to(device)
         model.eval()
