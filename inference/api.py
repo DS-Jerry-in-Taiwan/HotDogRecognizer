@@ -13,7 +13,8 @@ MODEL_PATH = "checkpoints/model_epoch_100.pth"
 @app.post("/predict/")
 async def predict_hotdog(file: UploadFile = File(...)):
     # Save the uploaded file to a temporary location
-    temp_file_path = f"temp_{file.filename}"
+    filename = os.path.basename(file.filename) # 只取檔名，避免路徑問題
+    temp_file_path = f"temp_{filename}"
     with open(temp_file_path, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
     pred, prob = predict(temp_file_path, MODEL_PATH, device='cpu')
