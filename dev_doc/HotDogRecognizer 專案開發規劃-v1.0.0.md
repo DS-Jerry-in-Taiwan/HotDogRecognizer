@@ -148,16 +148,41 @@
    - 測試 API/Web/Batch 部署腳本，確保可用性與穩定性。
 
 **Checklist：**
-- [ ] 模型儲存與載入（`checkpoints/`、`models/model.py`）
-- [ ] 推論模組（`inference/inference.py`）
-- [ ] 模型匯出（ONNX、TorchScript，`inference/export.py`）
-- [ ] 部署腳本（API、Web、Batch）
+- [x] 模型儲存與載入（`checkpoints/`、`models/model.py`）
+- [x] 推論模組（`inference/inference.py`）
+- [x] 模型匯出（ONNX、TorchScript，`inference/export.py`）
+- [x] 部署腳本（API、Web、Batch）
 
 ---
 
 ### 第五階段：系統整合與優化
 **目標：**
 - 完成各模組整合，優化系統效能與可維護性。
+
+### 第五階段：系統整合與優化 — 開發步驟
+
+1. **主程式入口設計**
+   - 建立 `main.py`，統一管理訓練、推論、匯出、部署等功能入口。
+   - 支援命令列參數或配置檔選擇不同功能。
+
+2. **參數設定與配置管理**
+   - 建立 `config.py` 或 `config.yaml`，集中管理訓練、推論、部署等參數。
+   - 主程式與各模組讀取配置，提升可維護性。
+
+3. **單元測試與整合測試**
+   - 撰寫 `tests/unit_test/` 及 `tests/integration_test/`，覆蓋各模組功能。
+   - 執行測試，確保系統整合後功能正確。
+
+4. **專案文件與使用說明**
+   - 撰寫 `README.md`，說明專案架構、安裝步驟、使用方法與 API 文件。
+   - 補充開發規範與目錄結構說明。
+
+5. **套件需求整理**
+   - 建立 `requirements.txt`，列出所有依賴套件，方便環境重現與部署。
+
+6. **效能優化與重構**
+   - 檢查各模組效能瓶頸，優化資料載入、推論速度等。
+   - 重構重複或冗餘程式碼，提升可維護性。
 
 **Checklist：**
 - [ ] 主程式入口（`main.py`）
